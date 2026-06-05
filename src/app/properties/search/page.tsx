@@ -1,29 +1,18 @@
-"use client";
-
-import { useSearchParams } from "next/navigation";
-import SearchPage from "../searchPage/page";
+import { Suspense } from "react";
+import SearchRouteClient from "./SearchRouteClient";
 
 export default function SearchRoute() {
-  const searchParams = useSearchParams();
-  
-  const tab = searchParams.get("tab") || "buy";
-  const location = searchParams.get("location") || "";
-  const city = searchParams.get("city") || "8";
-  const locality = searchParams.get("locality") || "9694";
-  const preference = searchParams.get("preference") || "S";
-  const res_com = searchParams.get("res_com") || "R";
-
-  // Pass search parameters to SearchPage component
-  const searchData = {
-    tab,
-    location: location.replace(/-/g, " "),
-    city,
-    locality,
-    preference,
-    res_com,
-  };
-
-  return <SearchPage searchData={searchData} />;
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-gray-50 text-gray-500">
+          Loading search results...
+        </div>
+      }
+    >
+      <SearchRouteClient />
+    </Suspense>
+  );
 }
 
 
